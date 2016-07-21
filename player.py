@@ -30,10 +30,12 @@ class Player:
         my_cards = our_player["hole_cards"]
         round = game_state["round"]
 
-        hand_value = eval_hand(my_cards + community_cards)
-        community_value = eval_hand(community_cards)
+        hand_score = 0
 
-        hand_score = hand_value - community_value
+        if len(community_cards):
+            hand_value = eval_hand(my_cards + community_cards)
+            community_value = eval_hand(community_cards)
+            hand_score = hand_value - community_value
 
         #pull out the other players
         other_players = [player for player in players if player["status"] == "active" and player is not our_player]
