@@ -29,6 +29,7 @@ class Player:
         community_cards = game_state["community_cards"]
         my_cards = our_player["hole_cards"]
         round = game_state["round"]
+        aggresive_bet = max(min_bet, int(our_player["stack"]) / 2)
 
         hand_score = 0
 
@@ -52,7 +53,7 @@ class Player:
             if (cards[0]["rank"] == 'A'
                     or cards[1]["rank"] == 'A'
                     or cards[0]["rank"] == cards[1]["rank"]):
-                this_bet = 500 # min_bet + minimum_raise
+                this_bet = aggresive_bet 
             elif current_buy_in <= 50:
                 this_bet = min_bet
             else:
@@ -62,7 +63,7 @@ class Player:
             #if n_playing == 2 and other_players[0]["stack"] < our_player["stack"]:
              #   this_bet = other_players[0]["stack"]
             #else:
-            this_bet = max(min_bet, int(our_player["stack"]) / 2)  
+            this_bet = aggresive_bet 
         else:
             this_bet = minimum_raise
         print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Hand Rating", hand_score, "Other Players", other_players
