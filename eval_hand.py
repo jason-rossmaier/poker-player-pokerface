@@ -5,37 +5,41 @@ from collections import defaultdict
 ###########
 hand_str_dict = {
     'high card': 0,
-    'pair' = 1,
-    'two_pair' = 2,
-    'three_kind' = 3,
-    'straight' = 4,
-    'flush' = 5,
-    'full_house' = 6,
-    'four_kind' = 7,
-    'straight_flush' = 8,
+    'pair' : 1,
+    'two_pair' : 2,
+    'three_kind' : 3,
+    'straight' : 4,
+    'flush' : 5,
+    'full_house' : 6,
+    'four_kind' : 7,
+    'straight_flush' : 8,
 }
 
-def eval_hand(hole, community):
+# 0: very low, 1: have a flush
+def eval_flush_potential(hand_suits):
+    pass
+    #for card in hand_suits:
+        #if card["suit"]
+
+def eval_hand_priv(cards):
     result = 0.0
-    hand_ranks = defaultdict(int)
-    hand_suits = defaultdict(int)
+    
+    card_ranks = defaultdict(int)
+    card_suits = defaultdict(int)
 
-    for card in hole:
+    for card in cards:
         rank = card["rank"]
-        hand_ranks[rank] += 1
+        card_ranks[rank] += 1
         suit = card["suit"]
-        hand_suits[suit] += 1
-
-    for card in community:
-        rank = card["rank"]
-        hand_ranks[rank] += 1
-        suit = card["suit"]
-        hand_suits[suit] += 1
-
-    for card in hand_ranks
+        card_suits[suit] += 1
         
+    return max(card_ranks.items(), key = lambda x: x[1])[1]
+
+def eval_hand(hole, community):
+    return ( eval_hand_priv(hole) + eval_hand_priv(community) ) - eval_hand_priv(community)
 
 if __name__ == "__main__":
-
-    result = eval_hand([{"rank":11, "suit":'S'},{"rank":2, "suit":'D'}], [{"rank":2, "suit":'D'}])
+    community = [{"rank":2, "suit":'C'}]
+    hole = [{"rank":11, "suit":'S'},{"rank":2, "suit":'D'}]
+    result = eval_hand(hole, community)
     print result
