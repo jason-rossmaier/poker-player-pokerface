@@ -18,6 +18,8 @@ class Player:
         community_cards = game_state["community_cards"]
         round = game_state["round"]
 
+        n_playing = len([x for x in players if x["status"] == "active")
+
         #pre-flop
         if len(community_cards) == 0:
             cards = our_player["hole_cards"]
@@ -30,7 +32,7 @@ class Player:
                 this_bet = 0
         else:
             this_bet = 100
-        print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"]
+        print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing
         return this_bet
 
     def showdown(self, game_state):
