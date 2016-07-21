@@ -36,6 +36,8 @@ class Player:
             hand_value = eval_hand(my_cards + community_cards)
             community_value = eval_hand(community_cards)
             hand_score = hand_value - community_value
+        else:
+            hand_score = eval_hand(my_cards)
 
         #pull out the other players
         other_players = [player for player in players if player["status"] == "active" and player is not our_player]
@@ -58,6 +60,8 @@ class Player:
         #if we are post flop and have a larger chip stack, put them all in
         elif n_playing == 2 and other_players[0]["stack"] < our_player["stack"]:
             this_bet = other_players[0]["stack"]
+        elif hand_score > 0:
+            this_bet = max(min_bet, int(our_player["stack"]) / 2)  
         else:
             this_bet = 100
         print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Hand Rating", hand_score
