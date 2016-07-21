@@ -28,6 +28,8 @@ class Player:
                     or cards[1]["rank"] == 'A'
                     or cards[0]["rank"] == cards[1]["rank"]):
                 this_bet = 500 # min_bet + minimum_raise
+            elif current_buy_in <= 50:
+                this_bet = min_bet
             else:
                 this_bet = 0
         elif len(community_cards) == 3:
