@@ -47,6 +47,9 @@ def has_straight_ranks(ranks):
 def has_straight(cards):
     return has_straight_ranks(set(card_value[str(card["rank"])] for card in cards))
 
+def eval_straight(cards):
+    return hand_str_dict['straight'] if has_straight(cards) else 0.0
+
 # high card, pair, three of a kind, 4 of a kind
 def eval_matching_rank_hands(card_ranks):
     num_matching_ranks = max(card_ranks.items(), key = lambda x: x[1])[1]
@@ -55,12 +58,30 @@ def eval_matching_rank_hands(card_ranks):
     else:
         return num_matching_ranks
 
+def eval_matching_rank_hands_v2(card_ranks):
+    count_by_multiplicities = defaultdict(int)
+    for m in card_ranks.itervalues():
+        count_by_multiplicities[m] += 1
+    if count_by_multiplicities[4]:
+        print "HAVE 4 OF A KIND"
+        result = hand_str_dict['four_kind']
+    elif count_by_multiplicities[3] and count_by_multiplicities[2] or count_by_multiplicities[3] == 2:
+        print "HAVE FULL HOUSE"
+        result = hand_str_dict['full_house']
+    elif count_by_multiplicities[3]:
+        print "HAVE 3 OF A KIND"
+        result = hand_str_dict['three_kind']
+    elif count_by_multiplicities[2] >= 2:
+        print "HAVE 2 PAIRS"
+        result = hand_str_dict['two_pair']
+    elif count_by_multiplicities[2]:
+        print "HAVE PAIR"
+        result = hand_str_dict['pair']
+    else:
+        result = hand_str_dict['high card']
+    return result
+
 def eval_hand_priv(cards):
-    if has_straight(cards):
-        return 4.0
-
-    result = 0.0
-
     card_ranks = defaultdict(int)
     card_suits = defaultdict(int)
     for card in cards:
@@ -68,9 +89,11 @@ def eval_hand_priv(cards):
         card_ranks[rank] += 1
         suit = card["suit"]
         card_suits[suit] += 1
-
-    result = max( eval_matching_rank_hands(card_ranks), eval_flush(card_suits) )
-    return result
+    v1 = eval_matching_rank_hands(card_ranks)
+    v2 = eval_matching_rank_hands_v2(card_ranks)
+    print "DANIEL'S EVAL_HAND:", v1
+    print "DI-AN'S EVAL_HAND:", v2
+    return max( v1, eval_flush(card_suits), eval_straight(cards) )
 
 def eval_hand(hole, community):
     if not hole:
