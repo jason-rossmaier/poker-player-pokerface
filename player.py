@@ -66,7 +66,7 @@ class Player:
             else:
                 this_bet = 0
         #really good hand, go all in
-        elif hand_score > 2:
+        elif hand_score > 1:
             this_bet = our_player["stack"]
         #solid hand, make an aggresive bet
         elif hand_score > 0:
