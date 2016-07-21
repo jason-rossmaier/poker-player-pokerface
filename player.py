@@ -1,5 +1,6 @@
 import sys
 from collections import defaultdict
+from eval_hand import eval_hand as official_eval_hand
 sys.stdout = sys.stderr
 
 print "PYTHON VERSION", sys.version
@@ -71,7 +72,9 @@ class Player:
         #meh
         else:
             this_bet = conservative_bet
-        print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Hand Rating", hand_score, "Other Players", other_players
+            
+        future_fancy_hand_rating = official_eval_hand(my_cards, community_cards)
+        print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Future Fancy Hand Rating", future_fancy_hand_rating, "Hand Rating", hand_score, "Other Players", other_players
         return this_bet
 
     def showdown(self, game_state):

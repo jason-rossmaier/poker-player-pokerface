@@ -20,12 +20,7 @@ card_value.update(J=11, Q=12, K=13, A=14)
 
 
 # range 0-1, float. flush defined above, 0.4 is 2 cards of same suit, 0.6 3 cards of same suit
-def eval_flush(cards):
-    card_suits = defaultdict(int)
-    for card in cards:
-        suit = card["suit"]
-        card_suits[suit] += 1
-
+def eval_flush(card_suits):
     num_flush_cards = max(card_suits.items(), key = lambda x: x[1])[1]
     #just having 1 card of a particular suit is baseline and makes no difference
     if (num_flush_cards) == 1: 
@@ -35,7 +30,6 @@ def eval_flush(cards):
         return hand_str_dict['flush']
 
     return float(num_flush_cards) / 5.0
-
 
 def has_straight_ranks(ranks):
     if len(ranks) < 5:
@@ -53,6 +47,13 @@ def has_straight_ranks(ranks):
 def has_straight(cards):
     return has_straight_ranks(set(card_value[str(card["rank"])] for card in cards))
 
+# high card, pair, three of a kind, 4 of a kind
+def eval_matching_rank_hands(card_ranks):
+    num_matching_ranks = max(card_ranks.items(), key = lambda x: x[1])[1]
+    if num_matching_ranks == 4:
+        return hand_str_dict['four_kind']
+    else:
+        return num_matching_ranks
 
 def eval_hand_priv(cards):
     if has_straight(cards):
@@ -61,11 +62,14 @@ def eval_hand_priv(cards):
     result = 0.0
 
     card_ranks = defaultdict(int)
+    card_suits = defaultdict(int)
     for card in cards:
         rank = card["rank"]
         card_ranks[rank] += 1
+        suit = card["suit"]
+        card_suits[suit] += 1
 
-    result += ( max(card_ranks.items(), key = lambda x: x[1])[1] + eval_flush(cards) )
+    result = max( eval_matching_rank_hands(card_ranks), eval_flush(card_suits) )
     return result
 
 def eval_hand(hole, community):
@@ -79,12 +83,12 @@ def eval_hand(hole, community):
 
 if __name__ == "__main__":
     community = [{"rank":2, "suit":'C'}]
-    hole = [{"rank":"J", "suit":'C'},{"rank":"J", "suit":'C'},{"rank":"J", "suit":'C'},{"rank":2, "suit":'C'}]
+    hole = [{"rank":"J", "suit":'C'},{"rank":"J", "suit":'D'},{"rank":"Q", "suit":'C'},{"rank":2, "suit":'C'}]
     result = eval_hand(hole, community)
 
     print "hand result:",result
-    print "flush cards: ", eval_flush(hole + community)
 
     assert has_straight_ranks([2,3,4,5,6])
     assert has_straight_ranks([2,3,4,5,14])
     assert not has_straight_ranks([2,3,4,5,7,8,9,10])
+    print "hand result:",result
