@@ -27,13 +27,21 @@ class Player:
             if (cards[0]["rank"] == 'A'
                     or cards[1]["rank"] == 'A'
                     or cards[0]["rank"] == cards[1]["rank"]):
-                this_bet = min_bet + minimum_raise
+                this_bet = 500 # min_bet + minimum_raise
             else:
                 this_bet = 0
+        elif len(community_cards) == 3:
+            this_bet = 100
         else:
             this_bet = 100
+        this_bet = min(this_bet, our_player["stack"])
         print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing
         return this_bet
 
     def showdown(self, game_state):
         pass
+
+if __name__ == "__main__":
+    import json
+    player = Player()
+    # print player.betRequest(json.)
