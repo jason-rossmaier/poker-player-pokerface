@@ -12,6 +12,7 @@ class Player:
         players = game_state["players"]
         our_player = players[in_action]
         min_bet = current_buy_in - our_player["bet"]
+        bet_index = game_state["bet_index"]
         round = game_state["round"]
 
         #pre-flop
@@ -26,7 +27,7 @@ class Player:
                 this_bet = 0
         else:
             this_bet = 100
-        print "******** ROUND", round, "BET", this_bet
+        print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet
         return this_bet
 
     def showdown(self, game_state):
