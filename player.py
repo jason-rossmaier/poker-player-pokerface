@@ -65,7 +65,7 @@ class Player:
             this_bet = max(min_bet, int(our_player["stack"]) / 2)  
         else:
             this_bet = minimum_raise
-        print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Hand Rating", hand_score
+        print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Hand Rating", hand_score, "Other Players", other_players
         return this_bet
 
     def showdown(self, game_state):
