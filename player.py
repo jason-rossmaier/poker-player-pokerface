@@ -30,6 +30,7 @@ class Player:
         my_cards = our_player["hole_cards"]
         round = game_state["round"]
         aggresive_bet = max(min_bet, int(our_player["stack"]) / 4)
+        conservative_bet = max(min_bet, int(our_player["stack"]) / 20)
 
         hand_score = 0
 
@@ -69,7 +70,7 @@ class Player:
             this_bet = aggresive_bet
         #meh
         else:
-            this_bet = minimum_raise
+            this_bet = conservative_bet
         print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Hand Rating", hand_score, "Other Players", other_players
         return this_bet
 
