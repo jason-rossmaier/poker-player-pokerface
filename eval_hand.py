@@ -15,6 +15,10 @@ hand_str_dict = {
     'straight_flush' : 8.0,
 }
 
+card_value = dict((str(i), i) for i in xrange(2, 11))
+card_value.update(J=11, Q=12, K=13, A=14)
+
+
 # range 0-1, float. flush defined above, 0.4 is 2 cards of same suit, 0.6 3 cards of same suit
 def eval_flush(cards):
     card_suits = defaultdict(int)
@@ -32,7 +36,28 @@ def eval_flush(cards):
 
     return float(num_flush_cards) / 5.0
 
+
+def has_straight_ranks(ranks):
+    if len(ranks) < 5:
+        return False
+    ranks = sorted(ranks)
+    def has_straight_4(low_rank):
+        return all(i in ranks for i in xrange(low_rank, low_rank + 4))
+    for i in xrange(len(ranks) - 4):
+        if has_straight_4(ranks[i] + 1):
+            return True
+    if 14 in ranks: # A, 2, 3, 4, 5
+        return has_straight_4(2)
+    return False
+
+def has_straight(cards):
+    return has_straight_ranks(set(card_value[str(card["rank"])] for card in cards))
+
+
 def eval_hand_priv(cards):
+    if has_straight(cards):
+        return 4.0
+
     result = 0.0
 
     card_ranks = defaultdict(int)
@@ -54,8 +79,12 @@ def eval_hand(hole, community):
 
 if __name__ == "__main__":
     community = [{"rank":2, "suit":'C'}]
-    hole = [{"rank":11, "suit":'C'},{"rank":2, "suit":'C'},{"rank":11, "suit":'C'},{"rank":2, "suit":'C'}]
+    hole = [{"rank":"J", "suit":'C'},{"rank":"J", "suit":'C'},{"rank":"J", "suit":'C'},{"rank":2, "suit":'C'}]
     result = eval_hand(hole, community)
 
     print "hand result:",result
     print "flush cards: ", eval_flush(hole + community)
+
+    assert has_straight_ranks([2,3,4,5,6])
+    assert has_straight_ranks([2,3,4,5,14])
+    assert not has_straight_ranks([2,3,4,5,7,8,9,10])
