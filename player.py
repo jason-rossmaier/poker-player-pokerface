@@ -5,6 +5,11 @@ sys.stdout = sys.stderr
 
 print "PYTHON VERSION", sys.version
 
+def wiggle(bet, maximum):
+    factor = random.uniform(1.0,1.10)
+    print factor
+    return int(min(bet*factor, maximum))
+
 def eval_hand(cards):
     result = 0.0
     card_ranks = defaultdict(int)
@@ -75,7 +80,7 @@ class Player:
             
         future_fancy_hand_rating = official_eval_hand(my_cards, community_cards)
         print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Future Fancy Hand Rating", future_fancy_hand_rating, "Hand Rating", hand_score, "Other Players", other_players
-        return this_bet
+        return wiggle(this_bet, our_player["stack"])
 
     def showdown(self, game_state):
         pass
