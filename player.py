@@ -28,7 +28,7 @@ class Player:
                 this_bet = 0
         else:
             this_bet = 100
-        print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet
+        print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"]
         return this_bet
 
     def showdown(self, game_state):
