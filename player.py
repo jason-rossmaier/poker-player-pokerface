@@ -12,6 +12,7 @@ class Player:
         players = game_state["players"]
         our_player = players[in_action]
         min_bet = current_buy_in - our_player["bet"]
+        round = game_state["round"]
 
         #pre-flop
         if game_state["round"] == 0:
@@ -20,11 +21,13 @@ class Player:
             if (cards[0]["rank"] == 'A'
                     or cards[1] == 'A'
                     or cards[0]["rank"] == cards[1]["rank"]):
-                return min_bet + minimum_raise
+                this_bet = min_bet + minimum_raise
             else:
-                return 0
+                this_bet = 0
         else:
-            return 100
+            this_bet = 100
+        print "******** ROUND", round, "BET", this_bet
+        return this_bet
 
     def showdown(self, game_state):
         pass
