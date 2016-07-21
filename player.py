@@ -4,7 +4,7 @@ class Player:
 
     def betRequest(self, game_state):
     #pre-flop
-        if game_state.round = 0:
+        if game_state.round == 0:
             cards = game_state.players[game_state.in_action].hole_cards
             #if we have at least one ace or a pair, we bet the first hand, if not, then fold
             if (cards[0].rank == 'A'
