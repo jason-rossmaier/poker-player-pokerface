@@ -18,7 +18,7 @@ class Player:
         community_cards = game_state["community_cards"]
         round = game_state["round"]
 
-        n_playing = len([x for x in players if x["status"] == "active")
+        n_playing = len([x for x in players if x["status"] == "active"])
 
         #pre-flop
         if len(community_cards) == 0:
