@@ -62,7 +62,7 @@ class Player:
             if n_playing == 2 and other_players[0]["stack"] < our_player["stack"]:
                 this_bet = other_players[0]["stack"]
             else:
-                this_bet = max(current_buy_in, int(our_player["stack"]) / 2)  
+                this_bet = max(min_bet, int(our_player["stack"]) / 2)  
         else:
             this_bet = minimum_raise
         print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Hand Rating", hand_score
