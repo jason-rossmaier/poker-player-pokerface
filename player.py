@@ -1,4 +1,5 @@
 import sys
+import random
 from collections import defaultdict
 from eval_hand import eval_hand as official_eval_hand
 sys.stdout = sys.stderr
