@@ -1,11 +1,22 @@
 import sys
+from collections import defaultdict
 sys.stdout = sys.stderr
 
 print "PYTHON VERSION", sys.version
 
+def eval_hand(cards):
+    result = 0.0
+    card_ranks = defaultdict(int)
+
+    for card in cards:
+        rank = card["rank"]
+        card_ranks[rank] += 1
+
+    return max(card_ranks.items(), key = lambda x: x[1])[1]
+    
 class Player:
     VERSION = "Default Python folding player"
-
+    
     def betRequest(self, game_state):
         in_action = game_state["in_action"]
         current_buy_in = game_state["current_buy_in"]
@@ -16,7 +27,13 @@ class Player:
         min_bet = current_buy_in - our_player["bet"]
         bet_index = game_state["bet_index"]
         community_cards = game_state["community_cards"]
+        my_cards = our_player["hole_cards"]
         round = game_state["round"]
+
+        hand_value = eval_hand(my_cards + community_cards)
+        community_value = eval_hand(community_cards)
+
+        hand_score = hand_value - community_value
 
         #pull out the other players
         other_players = [player for player in players if player["status"] == "active" and player is not our_player]
@@ -41,7 +58,7 @@ class Player:
             this_bet = other_players[0]["stack"]
         else:
             this_bet = 100
-        print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing
+        print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Hand Rating", hand_score
         return this_bet
 
     def showdown(self, game_state):
