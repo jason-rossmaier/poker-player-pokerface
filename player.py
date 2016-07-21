@@ -19,7 +19,7 @@ class Player:
             cards = our_player["hole_cards"]
             #if we have at least one ace or a pair, we bet the first hand, if not, then fold
             if (cards[0]["rank"] == 'A'
-                    or cards[1] == 'A'
+                    or cards[1]["rank"] == 'A'
                     or cards[0]["rank"] == cards[1]["rank"]):
                 this_bet = min_bet + minimum_raise
             else:
