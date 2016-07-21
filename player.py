@@ -29,7 +29,7 @@ class Player:
         community_cards = game_state["community_cards"]
         my_cards = our_player["hole_cards"]
         round = game_state["round"]
-        aggresive_bet = max(min_bet, int(our_player["stack"]) / 2)
+        aggresive_bet = max(min_bet, int(our_player["stack"]) / 4)
 
         hand_score = 0
 
