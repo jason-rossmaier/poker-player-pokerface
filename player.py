@@ -58,12 +58,13 @@ class Player:
             else:
                 this_bet = 0
         #if we are post flop and have a larger chip stack, put them all in
-        elif n_playing == 2 and other_players[0]["stack"] < our_player["stack"]:
-            this_bet = other_players[0]["stack"]
         elif hand_score > 0:
-            this_bet = max(min_bet, int(our_player["stack"]) / 2)  
+            if n_playing == 2 and other_players[0]["stack"] < our_player["stack"]:
+                this_bet = other_players[0]["stack"]
+            else:
+                this_bet = max(current_buy_in, int(our_player["stack"]) / 2)  
         else:
-            this_bet = 100
+            this_bet = minimum_raise
         print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Hand Rating", hand_score
         return this_bet
 
