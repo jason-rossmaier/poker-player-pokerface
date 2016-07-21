@@ -8,7 +8,6 @@ print "PYTHON VERSION", sys.version
 
 def wiggle(bet, maximum):
     factor = random.uniform(1.0,1.10)
-    print factor
     return int(min(bet*factor, maximum))
 
 def eval_hand(cards):
@@ -77,7 +76,10 @@ class Player:
             this_bet = aggresive_bet
         #meh
         else:
-            this_bet = conservative_bet
+            if game_state["dealer"] == in_action and current_buy_in == 0:
+                this_bet = conservative_bet
+            else:
+                this_bet = 0
             
         future_fancy_hand_rating = official_eval_hand(my_cards, community_cards)
         print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Future Fancy Hand Rating", future_fancy_hand_rating, "Hand Rating", hand_score, "Other Players", other_players
