@@ -13,10 +13,11 @@ class Player:
         our_player = players[in_action]
         min_bet = current_buy_in - our_player["bet"]
         bet_index = game_state["bet_index"]
+        community_cards = game_state["community_cards"]
         round = game_state["round"]
 
         #pre-flop
-        if game_state["round"] == 0:
+        if len(community_cards) == 0:
             cards = our_player["hole_cards"]
             #if we have at least one ace or a pair, we bet the first hand, if not, then fold
             if (cards[0]["rank"] == 'A'
