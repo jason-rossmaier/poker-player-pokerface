@@ -58,12 +58,16 @@ class Player:
                 this_bet = min_bet
             else:
                 this_bet = 0
-        #if we are post flop and have a larger chip stack, put them all in
+        #really good hand, go all in
+        elif hand_score > 2:
+            this_bet = our_player["stack"]
+        #solid hand, make an aggresive bet
         elif hand_score > 0:
             #if n_playing == 2 and other_players[0]["stack"] < our_player["stack"]:
              #   this_bet = other_players[0]["stack"]
             #else:
-            this_bet = aggresive_bet 
+            this_bet = aggresive_bet
+        #meh
         else:
             this_bet = minimum_raise
         print "******** ROUND", round, "BET_INDEX", bet_index, "BET", this_bet, "STACK", our_player["stack"], "N_PLAYING", n_playing, "Hand Rating", hand_score, "Other Players", other_players
