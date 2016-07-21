@@ -1,6 +1,8 @@
 import sys
 sys.stdout = sys.stderr
 
+print "PYTHON VERSION", sys.version
+
 class Player:
     VERSION = "Default Python folding player"
 
